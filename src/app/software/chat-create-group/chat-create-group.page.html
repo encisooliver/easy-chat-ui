@@ -1,0 +1,46 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-label style="margin-left: 20px; font-size: 20px; color: #000;" slot="start"
+      (click)="backToAppParticipantsModal()">
+      <ion-icon id="hd-icon" color="light" color="dark" name="arrow-back-outline"></ion-icon>
+    </ion-label>
+    <ion-title slot="start"> New Room</ion-title>
+    <ion-label slot="end" style="margin-right: 20px; color: grey;" (click)="createNewRoom()" id="create"> CREATE
+    </ion-label>
+  </ion-toolbar>
+  <ion-toolbar>
+    <ion-grid style="padding: 0; margin: 0">
+      <ion-row>
+        <ion-col style="text-align: center;">
+          <ion-label>Name your new room</ion-label>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col>
+          <ion-label>
+            <ion-input [(ngModel)]="roomName" slot="start" placeholder="Room Name(Required)"
+              (keyup)="roomNameKeyPress($event)" ></ion-input>
+          </ion-label>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list>
+    <ng-container>
+      <ion-item-sliding *ngFor="let user of participants">
+        <ion-item button *ngIf="user.UserId !== userId">
+          <IonThumbnail slot="start">
+            <ion-icon name="person" slot="icon-only"></ion-icon>
+          </IonThumbnail>
+          <ion-label>
+            <h4>{{ user.User }}</h4>
+            <h4 [hidden]="true">ID: {{ user.UserId }}</h4>
+          </ion-label>
+        </ion-item>
+      </ion-item-sliding>
+    </ng-container>
+  </ion-list>
+</ion-content>

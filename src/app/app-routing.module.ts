@@ -22,6 +22,7 @@ const routes: Routes = [
     path: 'user-list/:socketId/:socketUserName/:uiid/:fromchat',
     loadChildren: () => import('./user-list/user-list.module').then( m => m.UserListPageModule)
   },
+  
   {
     path: 'login',
     loadChildren: () => import('./login/login.module').then( m => m.LoginPageModule)
@@ -47,6 +48,22 @@ const routes: Routes = [
     redirectTo: 'user-list',
     pathMatch: 'full'
   },
+  {
+    path: 'account',
+    loadChildren: () => import('./account/account.module').then( m => m.AccountPageModule)
+  },
+  // {
+  //   path: 'easychat',
+  //   loadChildren: () => import('./software/software.module').then( m => m.SoftwarePageModule)
+  // },
+
+  // new software structure
+  { path: 'easychat', loadChildren: './software/software.module#SoftwarePageModule' },
+  { path: 'chat', loadChildren: './software/chat/chat.module#ChatPageModule' },
+  { path: 'chat-box', loadChildren: './software/chat-box/chat-box.module#ChatBoxPageModule' },
+  { path: 'chat-group', loadChildren: './software/chat-group/chat-group.module#ChatGroupPageModule' },
+  { path: 'chat-create-group', loadChildren: './software/chat-create-group/chat-create-group.module#ChatCreateGroupPageModule' },
+  { path: 'user-profile', loadChildren: './software/profile/profile.module#ProfilePageModule' },
 ];
 
 @NgModule({

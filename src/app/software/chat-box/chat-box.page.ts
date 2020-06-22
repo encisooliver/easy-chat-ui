@@ -8,11 +8,16 @@ import { Color } from 'wijmo/wijmo';
 import { ThrowStmt } from '@angular/compiler';
 
 @Component({
-  selector: 'app-chat-room',
-  templateUrl: './chat-room.page.html',
-  styleUrls: ['./chat-room.page.scss'],
+  selector: 'app-chat-box',
+  templateUrl: './chat-box.page.html',
+  styleUrls: ['./chat-box.page.scss'],
 })
-export class ChatRoomPage implements OnInit {
+export class ChatBoxPage implements OnInit {
+
+  constructor(private socket: Socket,
+    private modalCtrl: ModalController,
+  ) {}
+
   @Input() receiverId: any;
   @Input() receiver: any;
   @Input() currentUser: any;
@@ -26,12 +31,6 @@ export class ChatRoomPage implements OnInit {
   messages = [];
   isTyping = false;
   isDisabledSms = true;
-
-  constructor(private socket: Socket,
-    private modalCtrl: ModalController,
-  ) {
-
-  }
 
   ngOnInit() {
     this.headerDetail = this.currentUser + ", " + this.receiver;
@@ -220,4 +219,5 @@ export class ChatRoomPage implements OnInit {
     this.socket.removeAllListeners('left-room');
     this.socket.removeAllListeners('message-room');
   }
+
 }
