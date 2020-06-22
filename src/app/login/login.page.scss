@@ -1,0 +1,24 @@
+// ion-item{
+//     --background: #3880ff;
+//     --color: #fff;
+// }
+// ion-button{
+//     --background: #062f77;
+// }
+
+// app-login { 
+//     ion-content{ 
+//         background-image: url('../../assets/images/easychat.png') !important; 
+//         // background-repeat: no-repeat; 
+//         // background-position: center; 
+//         // background-size: contain; 
+//     } 
+// }
+
+ion-button{
+    --background: #3880ff;
+}
+
+ion-content{
+    --background: #fff url('../../assets/images/bg2.png') no-repeat center center / cover;
+}

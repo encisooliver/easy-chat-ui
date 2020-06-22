@@ -1,0 +1,16 @@
+ion-checkbox {
+    --background: white !important;
+    margin-right: 10px;
+    --border-radius: 50%;
+    --checkmark-width: 0;
+    --background-checked: #32e0c4 !important;
+    --border-width: 10px;
+}
+
+ion-list {
+    padding: 0 !important;
+}
+
+.no-ripple {
+    --ripple-color: transparent;
+  }

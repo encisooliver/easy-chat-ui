@@ -1,0 +1,17 @@
+.welcome-card ion-img {
+    max-height: 35vh;
+    overflow: hidden;
+  }
+
+.img-profile {
+    margin-top: 50px;
+    background: #ddd;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    border-radius: 50%;
+}
+
+.welcome-card, .text-center {
+    text-align: center;
+}

@@ -1,0 +1,40 @@
+<ion-header>
+  <!-- <ion-toolbar color="tertiary"> -->
+  <ion-toolbar>
+    <ion-button slot="start" class="btn" (click)="showProfileModal()">
+      <ion-icon name="person"></ion-icon>
+    </ion-button>
+    <IonThumbnail style="margin-left: 20px;" *ngIf="isActiveChat" slot="start">
+      <ion-icon name="radio-button-on-outline" color="success" slot="icon-only"></ion-icon>
+    </IonThumbnail>
+    <ion-input style="margin-left: 30px;" [(ngModel)]="user" (keyup)="userNameKeyPress($event)"></ion-input>
+    <ion-button slot="end" class="btn" [disabled]="isValid" (click)="addSocket()">
+      <ion-icon name="add" slot="icon-only"></ion-icon>
+    </ion-button>
+    <ion-label style="margin-left: 20px; margin-right: 20px; font-size: 20px;" slot="end">
+      <ion-icon name="people" (click)="showRoomModal()"></ion-icon>
+    </ion-label>
+  </ion-toolbar>
+</ion-header>
+<ion-content class="bg-userlist" class="userlist">
+  <ion-list>
+    <ng-container *ngIf="isActiveChat == true">
+      <ion-item-sliding *ngFor="let user of connections">
+        <ion-item button *ngIf="user.UIId !== currentUserUIId" (click)="showChatModal(user.Id, user.User, user.IsRoom)">
+          <IonThumbnail slot="start">
+            <ion-icon name="person" slot="icon-only"></ion-icon>
+          </IonThumbnail>
+          <ion-label>
+            <h4 [hidden]="true">ID: {{ user.Id }}</h4>
+            <h4>{{ user.User }}</h4>
+            <h4 >IsRoom: {{ user.IsRoom }}</h4>
+          </ion-label>
+          <ion-note slot="end" color="primary">
+            <p>Sms: {{ user.NoOfUnreadReceivedMessages }}</p>
+            <!-- <div [id]="user.Id"></div> -->
+          </ion-note>
+        </ion-item>
+      </ion-item-sliding>
+    </ng-container>
+  </ion-list>
+</ion-content>
