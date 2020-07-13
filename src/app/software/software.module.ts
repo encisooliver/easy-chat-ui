@@ -7,14 +7,19 @@ import { IonicModule } from '@ionic/angular';
 import { SoftwarePageRoutingModule } from './software-routing.module';
 
 import { SoftwarePage } from './software.page';
+import { IonicStorageModule } from '@ionic/storage';
+import { ChatComponent } from './chat/chat.component';
+import { ChatUserListComponent } from './chat-user-list/chat-user-list.component';
+import { ChatBoxComponent } from './chat-box/chat-box.component';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    SoftwarePageRoutingModule
+    SoftwarePageRoutingModule,
+    IonicStorageModule.forRoot(),
   ],
-  declarations: [SoftwarePage]
+  declarations: [SoftwarePage, ChatComponent, ChatUserListComponent, ChatBoxComponent]
 })
 export class SoftwarePageModule {}

@@ -1,0 +1,119 @@
+.message {
+    padding: 10px;
+    margin-bottom: 4px;
+    white-space: pre-wrap;
+}
+
+.my-message {
+    background: var(--ion-color-tertiary);
+    border-radius: 10px 0 10px 10PX;
+    color: #fff;
+}
+
+.other-message {
+    background: var(--ion-color-secondary);
+    border-radius: 0 10px 10px 10PX;
+    color: #fff;
+}
+
+.time{
+    color: #dfdfdf;
+    float: right;
+    font-size: small
+}
+
+.message-input {
+    margin-top: 0px;
+    border: 1px solid var(--ion-color-medium);
+    border-radius: 10px;
+    background: #fff;
+    resize: none !important;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.msg-btn {
+    --padding-start: 0.5em;
+    --padding-end: 0.5em;
+}
+
+.msg {
+  display: flex;
+  align-items: flex-end;
+  margin-bottom: 10px;
+}
+.msg:last-of-type {
+  margin: 0;
+}
+.msg-img {
+  width: 25px;
+  height: 25px;
+  margin-right: 10px;
+  background: #ddd;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  border-radius: 50%;
+}
+.msg-bubble {
+  max-width: 80%;
+  padding: 10px;
+  border-radius: 10px;
+  background: var(--left-msg-bg);
+}
+.msg-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+.msg-info-name {
+  margin-right: 8px;
+  font-size: 0.70em;
+  // font-weight: bold;
+}
+.msg-info-time {
+  font-size: 0.70em;
+}
+
+.left-msg .msg-bubble {
+  border-bottom-left-radius: 0;
+  background: #eeeeee;
+}
+
+.right-msg {
+  flex-direction: row-reverse;
+}
+.right-msg .msg-bubble {
+  background: #87c7ff;
+  color: #fff;
+  border-bottom-right-radius: 0;
+}
+.right-msg .msg-img {
+  margin: 0 0 0 10px;
+}
+.msg-text >>> a:link {
+  color: cornsilk !important;
+}
+
+.msger {
+  display: flex;
+  flex-flow: column wrap;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 867px;
+  margin: 25px 10px;
+  height: calc(100% - 50px);
+  border: var(--border);
+  border-radius: 5px;
+  background: var(--msger-bg);
+  box-shadow: 0 15px 15px -5px rgba(0, 0, 0, 0.2);
+}
+
+#hd-icon{
+  color: green;
+}
+
+//   ion-content{
+//     --background: #fff url('https://cdn.pixabay.com/photo/2017/06/14/16/56/background-2402703_960_720.jpg') no-repeat center center / cover; 
+// }

@@ -4,7 +4,8 @@
       <ion-icon name="person" (click)="showProfileModal()"></ion-icon>
     </ion-label>
     <ion-title>Chat</ion-title>
-    <ion-label style="margin-left: 20px; margin-right: 20px; font-size: 20px;" slot="end" (click)="showChatGroupModal()">
+    <ion-label style="margin-left: 20px; margin-right: 20px; font-size: 20px;" slot="end"
+      (click)="showUserListBoxModal()">
       <ion-icon name="people"></ion-icon>
     </ion-label>
   </ion-toolbar>
@@ -12,19 +13,17 @@
 
 <ion-content class="bg-userlist" class="userlist">
   <ion-list>
-    <ng-container *ngIf="isActiveChat == true">
-      <ion-item-sliding *ngFor="let user of connections">
-        <ion-item button *ngIf="user.UIId !== currentUserUIId" (click)="showChatModal(user.Id, user.User, user.IsRoom)">
+    <ng-container>
+      <ion-item-sliding *ngFor="let chat of ListChatObservableArrayChat">
+        <ion-item button (click)="showChatBoxModal(chat.Id,chat.ReceiverId, chat.ReceiverUserName, chat.ChatName)">
           <IonThumbnail slot="start">
             <ion-icon name="person" slot="icon-only"></ion-icon>
           </IonThumbnail>
           <ion-label>
-            <h4 [hidden]="true">ID: {{ user.Id }}</h4>
-            <h4>{{ user.User }}</h4>
-            <h4 >IsRoom: {{ user.IsRoom }}</h4>
+            <h4>{{ chat.ChatName }}</h4>
           </ion-label>
           <ion-note slot="end" color="primary">
-            <p>Sms: {{ user.NoOfUnreadReceivedMessages }}</p>
+            <!-- <p>Sms: {{ user.NoOfUnreadReceivedMessages }}</p> -->
           </ion-note>
         </ion-item>
       </ion-item-sliding>

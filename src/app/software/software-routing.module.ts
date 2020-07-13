@@ -2,22 +2,23 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
 import { SoftwarePage } from './software.page';
-import { ChatPage } from './chat/chat.page';
+import { ChatComponent } from './chat/chat.component';
+import { ChatUserListComponent } from './chat-user-list/chat-user-list.component';
 
 const routes: Routes = [
+  // { path: '', component: SoftwarePage },
+  { path: 'chat', component: ChatComponent },
+  { path: 'user-list', component: ChatUserListComponent },
   {
     path: '',
-    component: SoftwarePage
+    redirectTo: 'chat',
+    pathMatch: 'full'
   },
-  {
-    path: 'chat',
-    component: ChatPage
-  },
- 
+
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
-export class SoftwarePageRoutingModule {}
+export class SoftwarePageRoutingModule { }

@@ -5,58 +5,52 @@
         <ion-icon id="hd-icon" color="light" name="chevron-back-outline"></ion-icon>
       </ion-button>
     </ion-buttons>
-    <ion-input [(ngModel)]="headerDetail"></ion-input>
+    <ion-input [(ngModel)]="receiverFullName"></ion-input>
   </ion-toolbar>
 </ion-header>
 
 <ion-content class="msger" [fullscreen]="true">
+  <p [hidden]="isConnected">No internet connection!</p>
   <ion-grid>
     <ion-row>
-      <ng-container *ngFor="let message of messages">
-        <ion-col size="9" *ngIf="message.sender !== currentUser">
-          <!-- <div class="message other-message msg-bubble"> -->
+      <ng-container *ngFor="let message of listMessagesObservableArray">
+        <ion-col size="9" *ngIf="message.senderUserName !== username">
           <div class="msg left-msg">
             <!-- <div class="msg-img" style="background-image: url(https://image.flaticon.com/icons/svg/327/327779.svg)"></div> -->
-            <div class="msg-bubble" *ngIf="message.type !== 'typing-event'">
+            <div class="msg-bubble">
               <div class="msg-info">
-                <div class="msg-info-name">{{message.sender}}</div>
-                <div class="msg-info-time">{{message.createdAt | date:'short'}}</div>
+                <div class="msg-info-name">{{message.UserFullName }}</div>
+                <div class="msg-info-time">{{message.MessageDateTime | date:'short'}}</div>
               </div>
-              <div class="msg-text" [innerHTML]="message.message">
-                <!-- {{message.message}} -->
+              <div class="msg-text" [innerHTML]="message.Message">
               </div>
             </div>
-
-            <!-- <div class="msg-bubble" *ngIf="message.type === 'typing-event'">
-              <div class="msg-text" [innerHTML]="message.typingString">
-              </div>
-            </div> -->
-
           </div>
-          <!-- </div> -->
         </ion-col>
-        <ion-col offset="3" size="9" *ngIf="message.sender === currentUser">
+        <ion-col offset="3" size="9" *ngIf="message.senderUserName === username">
           <div class="msg right-msg">
             <!-- <div class="msg-img" style="background-image: url(https://image.flaticon.com/icons/svg/327/327779.svg)"></div> -->
             <div class="msg-bubble">
               <div class="msg-info">
-                <div class="msg-info-name">{{message.sender}}</div>
-                <div class="msg-info-time">{{message.createdAt | date:'short'}}</div>
+                <div class="msg-info-name">{{message.UserFullName }}</div>
+                <div class="msg-info-time">{{message.MessageDateTime | date:'short'}}</div>
               </div>
-              <div class="msg-text" [innerHTML]="message.message">
+              <div class="msg-text" [innerHTML]="message.Message">
               </div>
             </div>
           </div>
         </ion-col>
       </ng-container>
-      <ng-container *ngFor="let message of messages">
-        <ion-col size="9">
-          <div class="msg-bubble" *ngIf="message.type === 'typing-event'">
-            <div class="msg-text" [innerHTML]="message.typingString">
+      <ion-col> 
+        <div class="msg left-msg" *ngIf="isTyping">
+          <!-- <div class="msg-img" style="background-image: url(https://image.flaticon.com/icons/svg/327/327779.svg)"></div> -->
+          <div class="msg-bubble">
+            <div class="msg-text">
+              <p>...</p>
             </div>
           </div>
-        </ion-col>
-      </ng-container>
+        </div>
+      </ion-col>
     </ion-row>
   </ion-grid>
 </ion-content>

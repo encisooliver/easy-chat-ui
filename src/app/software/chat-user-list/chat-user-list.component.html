@@ -1,0 +1,25 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-label style="margin-left: 20px; font-size: 20px; color: #000;" slot="start" (click)="backToUserList()">
+      <ion-icon id="hd-icon" color="light" color="dark" name="arrow-back-outline"></ion-icon>
+    </ion-label>
+    <ion-title>New Message</ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <ion-item button lines="none" (click)="showAddParticipantToRoomModal()">
+    <ion-label>
+      <ion-icon name="people" style="margin-right: 10px;"></ion-icon> Create a room
+    </ion-label>
+  </ion-item>
+  <ion-list lines="none" *ngFor="let user of userListObservableArray">
+    <ion-item (click)="chatBox(user.Id,user.UserName, user.FullName)">
+      <IonThumbnail slot="start">
+        <ion-icon name="person" slot="icon-only"></ion-icon>
+      </IonThumbnail>
+      <ion-label>
+        <h4>{{ user.FullName }}</h4>
+      </ion-label>
+    </ion-item>
+  </ion-list>
+</ion-content>

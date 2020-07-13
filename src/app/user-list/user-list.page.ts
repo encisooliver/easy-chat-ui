@@ -85,7 +85,7 @@ export class UserListPage implements OnInit {
         messageCollectionId: collectionId,
         isRoom: isRoom
       }, cssClass: "modal-fullscreen"
-    });
+    }); 
 
     await modal.present();
     await modal.onDidDismiss().then(() => {

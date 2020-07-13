@@ -1,0 +1,47 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Register</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-grid>
+    <ion-row justify-content-center>
+      <ion-col align-self-center size-md="6" size-lg="5" size-xs="12">
+        <div text-center>
+          <h3>Create your account!</h3>
+        </div>
+        <div padding>
+          <ion-item>
+            <ion-input type="text" placeholder="firstName" [(ngModel)]="firstName" required>
+            </ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-input type="text" placeholder="lastName" [(ngModel)]="lastName" required>
+            </ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-input type="text" placeholder="middleName" [(ngModel)]="middleName" required>
+            </ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-input type="email" placeholder="your@email.com" [(ngModel)]="accountModel.Email" required>
+            </ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-input type="password" placeholder="Password" [(ngModel)]="accountModel.Password" required>
+            </ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-input type="password" placeholder="Password again" required [(ngModel)]="accountModel.ConfirmPassword">
+            </ion-input>
+          </ion-item>
+        </div>
+        <div padding>
+          <ion-button size="large" (click)="register()" expand="block">Register</ion-button>
+        </div>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+</ion-content>

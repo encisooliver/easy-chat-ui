@@ -21,7 +21,7 @@ export class ChatRoomPage implements OnInit {
   @Input() isRoom: boolean;
   @ViewChild(IonContent) content: IonContent;
 
-  headerDetail ='';
+  headerDetail = '';
   message = '';
   messages = [];
   isTyping = false;
@@ -159,8 +159,6 @@ export class ChatRoomPage implements OnInit {
 
   ionViewWillEnter() {
   }
-
-
 
   async close() {
     this.messages = [];
