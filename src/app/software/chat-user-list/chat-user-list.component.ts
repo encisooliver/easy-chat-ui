@@ -2,11 +2,11 @@ import { Component, OnInit, Input } from '@angular/core';
 import { Socket } from 'ngx-socket-io';
 import { ModalController } from '@ionic/angular';
 import { ObservableArray } from 'wijmo/wijmo';
-import { ChatCreateGroupPage } from '../chat-create-group/chat-create-group.page';
 import { ChatUserListService } from './chat-user-list.service';
 import { ChatBoxComponent } from '../chat-box/chat-box.component';
 import { Observable } from 'rxjs';
 import { retry } from 'rxjs/operators';
+import { ChatCreateGroupComponent } from '../chat-create-group/chat-create-group.component';
 
 export interface RoomModel {
   RoomId: string;
@@ -68,20 +68,25 @@ export class ChatUserListComponent implements OnInit {
     });
   }
 
-  async backToUserList() {
+  async closeModal() {
     await this.modalCtrl.dismiss();
   }
 
   async showAddParticipantToRoomModal() {
     let modal = await this.modalCtrl.create({
-      component: ChatCreateGroupPage,
+      component: ChatCreateGroupComponent,
       componentProps: {
-        currentUser: this.currentUserName,
+        currentUserName: this.currentUserName,
       },
       cssClass: "modal-fullscreen"
     })
+
     await modal.present();
-    await modal.onDidDismiss();
+    await modal.onDidDismiss().then(data => {
+      if (data['data'].event == 'create-room') {
+        this.showChatBoxModal(0, '', data['data'].chatName, data['data'].chatId);
+      }
+    });
   }
 
   async showChatBoxModal(userId, username, userFullName, chatId) {

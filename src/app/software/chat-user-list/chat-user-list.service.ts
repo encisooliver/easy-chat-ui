@@ -1,9 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AppSettings } from 'src/app/app-settings';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Subject, Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
-import { ObservableArray } from 'wijmo/wijmo';
 import { Storage } from '@ionic/storage';
 
 @Injectable({
@@ -20,12 +17,6 @@ export class ChatUserListService {
   ) { }
 
   private defaultAPIHostURL: string = this.appSettings.defaultAPIURLHost;
-
-  public options = {
-    headers: new HttpHeaders({
-      'Content-Type': 'application/json',
-    })
-  };
 
   public async ListUser() {
     let options = {

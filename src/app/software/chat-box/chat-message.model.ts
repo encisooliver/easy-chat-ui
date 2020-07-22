@@ -2,7 +2,8 @@ export class ChatMessageModel {
     Id: number;
     ChatId: number;
     UserId: number;
-    senderUserName: string;
+    UserName: string;
+    UserFullName: string;
     receiverUserName;
     Message: string;
     MessageDateTime: Date;

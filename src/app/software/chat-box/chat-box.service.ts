@@ -35,7 +35,7 @@ export class ChatBoxService {
     return this.httpClient.get(this.defaultAPIHostURL + "/api/message/list/" + chatId, options);
   }
 
-  public async SendMessage(chatId: number, receiverId: number, objChatMessage: ChatMessageModel) {
+  public async SendPrivateMessage(chatId: number, receiverId: number, objChatMessage: ChatMessageModel) {
     let options = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
@@ -44,5 +44,16 @@ export class ChatBoxService {
     };
 
     return this.httpClient.post(this.defaultAPIHostURL + "/api/message/send/" + chatId + "/" + receiverId, JSON.stringify(objChatMessage), options);
+  }
+
+  public async SendRoomMessage(chatId: number, objChatMessage: ChatMessageModel) {
+    let options = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + await this.storage.get("access_token")
+      })
+    };
+
+    return this.httpClient.post(this.defaultAPIHostURL + "/api/message/send/room/" + chatId, JSON.stringify(objChatMessage), options);
   }
 }

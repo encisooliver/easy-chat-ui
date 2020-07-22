@@ -33,6 +33,7 @@ export class ChatComponent implements OnInit {
     private storage: Storage,
     private chatService: ChatService
   ) {
+    this.chatService.UserDetail();
   }
 
   private socketId: string = '';
@@ -48,35 +49,6 @@ export class ChatComponent implements OnInit {
   private username: any;
 
   private ListChatObservableArrayChat = new ObservableArray();
-
-  private async getChatList() {
-    this.chatListSubcription = await (await this.chatService.ListChat()).subscribe(data => {
-      let listChatObservableArray = new ObservableArray();
-      var results = data;
-      if (results["length"] > 0) {
-        for (var i = 0; i <= results["length"] - 1; i++) {
-          listChatObservableArray.push({
-            Id: results[i].Id,
-            ChatDate: results[i].ChatDate,
-            ChatName: results[i].ChatName,
-            ReceiverId: results[i].ReceiverId,
-            ReceiverUserName: results[i].ReceiverUserName,
-            CreatedByUserId: results[i].CreatedByUserId,
-            CreatedByUserFullName: results[i].CreatedByUserFullName,
-          });
-        }
-
-        this.ListChatObservableArrayChat = listChatObservableArray;
-        if (this.chatListSubcription != null) this.chatListSubcription.unsubscribe();
-
-      }
-    });
-  }
-
-  async getUserName() {
-    try { return await this.storage.get("username") }
-    catch (e) { console.log(e) }
-  }
 
   ngOnInit() {
     this.socket.connect();
@@ -120,6 +92,35 @@ export class ChatComponent implements OnInit {
       }
     });
 
+  }
+
+  private async getChatList() {
+    this.chatListSubcription = await (await this.chatService.ListChat()).subscribe(data => {
+      let listChatObservableArray = new ObservableArray();
+      var results = data;
+      if (results["length"] > 0) {
+        for (var i = 0; i <= results["length"] - 1; i++) {
+          listChatObservableArray.push({
+            Id: results[i].Id,
+            ChatDate: results[i].ChatDate,
+            ChatName: results[i].ChatName,
+            ReceiverId: results[i].ReceiverId,
+            ReceiverUserName: results[i].ReceiverUserName,
+            CreatedByUserId: results[i].CreatedByUserId,
+            CreatedByUserFullName: results[i].CreatedByUserFullName,
+          });
+        }
+
+        this.ListChatObservableArrayChat = listChatObservableArray;
+        if (this.chatListSubcription != null) this.chatListSubcription.unsubscribe();
+
+      }
+    });
+  }
+
+  async getUserName() {
+    try { return await this.storage.get("username") }
+    catch (e) { console.log(e) }
   }
 
   async showProfileModal() {

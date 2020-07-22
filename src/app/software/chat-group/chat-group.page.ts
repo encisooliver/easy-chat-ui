@@ -2,7 +2,6 @@ import { Component, OnInit, Input } from '@angular/core';
 import { Socket } from 'ngx-socket-io';
 import { ModalController } from '@ionic/angular';
 import { ObservableArray } from 'wijmo/wijmo';
-import { ChatCreateGroupPage } from '../chat-create-group/chat-create-group.page';
 
 export interface RoomModel {
   RoomId: string;
@@ -47,7 +46,7 @@ export class ChatGroupPage implements OnInit {
 
   async showAddParticipantToRoomModal() {
     let modal = await this.modalCtrl.create({
-      component: ChatCreateGroupPage,
+      component: '',
       componentProps: {
         userId: this.userId,
         currentUser: this.currentUser,

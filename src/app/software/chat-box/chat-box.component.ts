@@ -5,9 +5,9 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { Location } from "@angular/common";
 import { ModalController } from '@ionic/angular';
 import { Color, ObservableArray } from 'wijmo/wijmo';
-import { ThrowStmt } from '@angular/compiler';
 import { ChatBoxService } from './chat-box.service';
 import { ChatMessageModel } from './chat-message.model';
+import { Storage } from '@ionic/storage';
 
 @Component({
   selector: 'app-chat-box',
@@ -19,9 +19,11 @@ export class ChatBoxComponent implements OnInit {
   constructor(private socket: Socket,
     private modalCtrl: ModalController,
     private chatBoxService: ChatBoxService,
+    private storage: Storage,
   ) { }
 
   @Input() username: any;
+  @Input() userFullName: any;
   @Input() chatId: any;
 
   @Input() receiverId: any;
@@ -89,6 +91,7 @@ export class ChatBoxComponent implements OnInit {
 
   private async getMessages() {
     let listMessagesObservableArray: ObservableArray = new ObservableArray;
+
     this.listMessageSubscription = await (await this.chatBoxService.ListMessage(this.chatId)).subscribe(data => {
       let results = data;
       if (results["length"] > 0) {
@@ -97,14 +100,14 @@ export class ChatBoxComponent implements OnInit {
             Id: results[i].Id,
             ChatId: results[i].ChatId,
             UserFullName: results[i].UserFullName,
-            senderUserName: results[i].UserName,
+            UserName: results[i].UserName,
             Message: results[i].Message,
             MessageDateTime: results[i].MessageDateTime,
             IsRead: results[i].IsRead,
             ReadDateTime: results[i].ReadDateTime,
           });
         }
-        
+
         this.listMessagesObservableArray = listMessagesObservableArray;
         if (this.listMessageSubscription != null) this.listMessageSubscription.unsubscribe();
 
@@ -117,13 +120,21 @@ export class ChatBoxComponent implements OnInit {
 
 
   ionViewWillEnter() {
+    this.getFullName()
   }
+
+  async getFullName() {
+    try { this.userFullName = await this.storage.get("FullName") }
+    catch (e) { console.log(e) }
+  }
+
 
   private chatMessageModel: ChatMessageModel = {
     Id: 0,
     ChatId: 0,
     UserId: 0,
-    senderUserName: '',
+    UserFullName: '',
+    UserName: '',
     receiverUserName: '',
     Message: '',
     MessageDateTime: new Date(),
@@ -140,38 +151,59 @@ export class ChatBoxComponent implements OnInit {
 
   private sentMessageSubSubscription: any;
 
-  private async sendPrivateMessage() {
+  private async sendMessage() {
     this.chatMessageModel.ChatId = this.chatId;
+    this.chatMessageModel.UserName = this.username;
+    this.chatMessageModel.UserFullName = this.userFullName;
     this.chatMessageModel.UserId = this.receiverId;
-    this.chatMessageModel.senderUserName = this.username;
     this.chatMessageModel.receiverUserName = this.receiverUserName;
     this.chatMessageModel.Message = this.messageContentAchorTag(this.message);
     this.chatMessageModel.MessageDateTime = new Date();
 
-    this.sentMessageSubSubscription = await (await this.chatBoxService.SendMessage(this.chatId, this.receiverId, this.chatMessageModel)).subscribe(
-      response => {
-        this.listMessagesObservableArray.push({
-          Id: 0,
-          ChatId: this.chatId,
-          senderUserName: this.chatMessageModel.senderUserName,
-          receiverUserName: this.receiverUserName,
-          Message: this.chatMessageModel.Message,
-          MessageDateTime: this.chatMessageModel.MessageDateTime,
-          IsRead: false,
-          ReadDateTime: new Date()
-        });
+    if (this.receiverId == 0) {
+      this.sentMessageSubSubscription = await (await this.chatBoxService.SendRoomMessage(this.chatId, this.chatMessageModel)).subscribe(
+        response => {
+          this.pushMessageToChatBox();
+          if (this.sentMessageSubSubscription != null) this.sentMessageSubSubscription.unsubscribe();
+        },
+        error => {
+          console.log(error.status);
+          this.isConnected = false;
+        }
+      );
+    }
+    else {
+      this.sentMessageSubSubscription = await (await this.chatBoxService.SendPrivateMessage(this.chatId, this.receiverId, this.chatMessageModel)).subscribe(
+        response => {
+          this.pushMessageToChatBox();
+          if (this.sentMessageSubSubscription != null) this.sentMessageSubSubscription.unsubscribe();
+        },
+        error => {
+          console.log(error.status);
+          this.isConnected = false;
+        }
+      );
+    }
+  }
 
-        setTimeout(() => {
-          this.content.scrollToBottom(200);
-        }, 100);
+  private async pushMessageToChatBox() {
+    await this.listMessagesObservableArray.push({
+      Id: 0,
+      ChatId: this.chatId,
+      senderUserName: this.chatMessageModel.UserName,
+      UserFullName: this.chatMessageModel.UserFullName,
+      receiverUserName: this.receiverUserName,
+      Message: this.chatMessageModel.Message,
+      MessageDateTime: this.chatMessageModel.MessageDateTime,
+      IsRead: false,
+      ReadDateTime: new Date()
+    });
 
-        if (this.sentMessageSubSubscription != null) this.sentMessageSubSubscription.unsubscribe();
-      },
-      error => {
-        let errorResults: string[] = ["failed", error["error"]];
-        this.isConnected = false;
-      }
-    );
+    await this.socket.emit('private-message', { messageObj: this.chatMessageModel });
+
+    setTimeout(() => {
+      this.content.scrollToBottom(200);
+    }, 100);
 
     this.message = '';
     this.isDisabledSms = true;
