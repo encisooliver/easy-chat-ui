@@ -14,12 +14,12 @@
   <ion-grid>
     <ion-row>
       <ng-container *ngFor="let message of listMessagesObservableArray">
-        <ion-col size="9" *ngIf="message.senderUserName !== username">
+        <ion-col size="9" *ngIf="message.SenderUserName !== username">
           <div class="msg left-msg">
             <!-- <div class="msg-img" style="background-image: url(https://image.flaticon.com/icons/svg/327/327779.svg)"></div> -->
             <div class="msg-bubble">
               <div class="msg-info">
-                <div class="msg-info-name">{{message.UserFullName }}</div>
+                <div class="msg-info-name">{{message.SenderFullName }}</div>
                 <div class="msg-info-time">{{message.MessageDateTime | date:'short'}}</div>
               </div>
               <div class="msg-text" [innerHTML]="message.Message">
@@ -27,12 +27,12 @@
             </div>
           </div>
         </ion-col>
-        <ion-col offset="3" size="9" *ngIf="message.senderUserName === username">
+        <ion-col offset="3" size="9" *ngIf="message.SenderUserName === username">
           <div class="msg right-msg">
             <!-- <div class="msg-img" style="background-image: url(https://image.flaticon.com/icons/svg/327/327779.svg)"></div> -->
             <div class="msg-bubble">
               <div class="msg-info">
-                <div class="msg-info-name">{{message.UserFullName }}</div>
+                <div class="msg-info-name">{{message.SenderFullName }}</div>
                 <div class="msg-info-time">{{message.MessageDateTime | date:'short'}}</div>
               </div>
               <div class="msg-text" [innerHTML]="message.Message">

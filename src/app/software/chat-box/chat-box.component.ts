@@ -94,13 +94,14 @@ export class ChatBoxComponent implements OnInit {
 
     this.listMessageSubscription = await (await this.chatBoxService.ListMessage(this.chatId)).subscribe(data => {
       let results = data;
+      console.log(results);
       if (results["length"] > 0) {
         for (var i = 0; i <= results["length"] - 1; i++) {
           listMessagesObservableArray.push({
             Id: results[i].Id,
             ChatId: results[i].ChatId,
-            UserFullName: results[i].UserFullName,
-            UserName: results[i].UserName,
+            SenderFullName: results[i].UserFullName,
+            SenderUserName: results[i].UserName,
             Message: results[i].Message,
             MessageDateTime: results[i].MessageDateTime,
             IsRead: results[i].IsRead,
@@ -132,10 +133,10 @@ export class ChatBoxComponent implements OnInit {
   private chatMessageModel: ChatMessageModel = {
     Id: 0,
     ChatId: 0,
-    UserId: 0,
-    UserFullName: '',
-    UserName: '',
-    receiverUserName: '',
+    SenderUserName: '',
+    SenderFullName: '',
+    RecieverId:  0,
+    ReceiverUserName: '',
     Message: '',
     MessageDateTime: new Date(),
     IsRead: false,
@@ -153,10 +154,10 @@ export class ChatBoxComponent implements OnInit {
 
   private async sendMessage() {
     this.chatMessageModel.ChatId = this.chatId;
-    this.chatMessageModel.UserName = this.username;
-    this.chatMessageModel.UserFullName = this.userFullName;
-    this.chatMessageModel.UserId = this.receiverId;
-    this.chatMessageModel.receiverUserName = this.receiverUserName;
+    this.chatMessageModel.SenderUserName = this.username;
+    this.chatMessageModel.SenderFullName = this.userFullName;
+    this.chatMessageModel.RecieverId = this.receiverId;
+    this.chatMessageModel.ReceiverUserName = this.receiverUserName;
     this.chatMessageModel.Message = this.messageContentAchorTag(this.message);
     this.chatMessageModel.MessageDateTime = new Date();
 
@@ -175,6 +176,10 @@ export class ChatBoxComponent implements OnInit {
     else {
       this.sentMessageSubSubscription = await (await this.chatBoxService.SendPrivateMessage(this.chatId, this.receiverId, this.chatMessageModel)).subscribe(
         response => {
+          if (this.chatId == 0) {
+            console.log(response);
+            this.chatId = response;
+          }
           this.pushMessageToChatBox();
           if (this.sentMessageSubSubscription != null) this.sentMessageSubSubscription.unsubscribe();
         },
@@ -190,9 +195,9 @@ export class ChatBoxComponent implements OnInit {
     await this.listMessagesObservableArray.push({
       Id: 0,
       ChatId: this.chatId,
-      senderUserName: this.chatMessageModel.UserName,
-      UserFullName: this.chatMessageModel.UserFullName,
-      receiverUserName: this.receiverUserName,
+      SenderUserName: this.chatMessageModel.SenderUserName,
+      SenderFullName: this.chatMessageModel.SenderFullName,
+      ReceiverUserName: this.receiverUserName,
       Message: this.chatMessageModel.Message,
       MessageDateTime: this.chatMessageModel.MessageDateTime,
       IsRead: false,

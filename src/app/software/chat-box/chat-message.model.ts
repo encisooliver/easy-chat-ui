@@ -1,10 +1,10 @@
 export class ChatMessageModel {
     Id: number;
     ChatId: number;
-    UserId: number;
-    UserName: string;
-    UserFullName: string;
-    receiverUserName;
+    SenderUserName: string;
+    SenderFullName: string;
+    RecieverId: number;
+    ReceiverUserName;
     Message: string;
     MessageDateTime: Date;
     IsRead: boolean;
